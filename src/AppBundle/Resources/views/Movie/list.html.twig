@@ -16,7 +16,7 @@
 		{% for movie in movies %}
 			<tr>
 				<td>{{ movie.name }}</td>
-				<td>{{ movie.releaseDate }}</td>
+				<td>{{ movie.releaseDate|date('d.m.Y') }}</td>
 				<td>{{ movie.description }}</td>
 			</tr>
 		{% endfor %}
