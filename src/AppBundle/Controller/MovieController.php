@@ -3,11 +3,8 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Model\Movie\Movie;
+use AppBundle\Model\Movie\MovieFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -36,16 +33,7 @@ class MovieController extends Controller {
 	public function newAction(Request $request) {
 		$movie = new Movie();
 
-		$form = $this
-			->createFormBuilder($movie, [
-				'data_class' => Movie::class
-			])
-			->add('name', TextType::class)
-			->add('releaseDate', DateType::class)
-			->add('description', TextareaType::class)
-			->add('submit', SubmitType::class)
-			->getForm();
-
+		$form = $this->createForm(MovieFormType::class, $movie);
 		$form->handleRequest($request);
 
 		if ($form->isValid()) {
