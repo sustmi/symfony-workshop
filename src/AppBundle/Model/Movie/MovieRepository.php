@@ -25,4 +25,12 @@ class MovieRepository {
 		return $this->em->getRepository(Movie::class)->findAll();
 	}
 
+	/**
+	 * @param int $movieId
+	 * @return \AppBundle\Model\Movie\Movie|null
+	 */
+	public function findById($movieId) {
+		return $this->em->getRepository(Movie::class)->find($movieId);
+	}
+
 }

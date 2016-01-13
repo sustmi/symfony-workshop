@@ -52,6 +52,34 @@ class MovieController extends Controller {
 		]);
 	}
 
+	/**
+	 * @Route(path="/edit/{movieId}")
+	 * @param \Symfony\Component\HttpFoundation\Request $request
+	 * @param int $movieId
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 */
+	public function editAction(Request $request, $movieId) {
+		$movieRepository = $this->get('app.movie.movie_repository');
+		/* @var $movieRepository \AppBundle\Model\Movie\MovieRepository */
 
+		$movie = $movieRepository->findById($movieId);
+
+		$form = $this->createForm(MovieFormType::class, $movie);
+		$form->handleRequest($request);
+
+		if ($form->isValid()) {
+			$em = $this->getDoctrine()->getManager();
+			$em->flush();
+
+			$this->addFlash('success', 'Movie ' . $movie->getName() . ' was edited.');
+
+			return $this->redirectToRoute('app_movie_list');
+		}
+
+		return $this->render('AppBundle:Movie:edit.html.twig', [
+			'form' => $form->createView(),
+			'movie' => $movie,
+		]);
+	}
 
 }

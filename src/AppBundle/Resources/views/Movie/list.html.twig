@@ -12,6 +12,7 @@
 			<th>Name</th>
 			<th>Release date</th>
 			<th>Description</th>
+			<th></th>
 		</tr>
 		</thead>
 		<tbody>
@@ -20,6 +21,9 @@
 				<td>{{ movie.name }}</td>
 				<td>{{ movie.releaseDate|date('d.m.Y') }}</td>
 				<td>{{ movie.description }}</td>
+				<td>
+					<a href="{{ url('app_movie_edit', { movieId: movie.id }) }}">edit</a>
+				</td>
 			</tr>
 		{% endfor %}
 		</tbody>

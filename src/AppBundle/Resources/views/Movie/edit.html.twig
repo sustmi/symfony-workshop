@@ -1,0 +1,10 @@
+{% extends 'AppBundle::layout.html.twig' %}
+
+{% block title %}Edit movie {{ movie.name }}{% endblock %}
+
+{% block content %}
+	<h1>Edit movie</h1>
+
+	{{ form(form) }}
+
+{% endblock %}
