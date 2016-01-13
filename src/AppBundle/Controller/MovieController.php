@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class MovieController extends Controller {
@@ -29,9 +30,10 @@ class MovieController extends Controller {
 
 	/**
 	 * @Route(path="/new/")
+	 * @param \Symfony\Component\HttpFoundation\Request $request
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
-	public function newAction() {
+	public function newAction(Request $request) {
 		$movie = new Movie();
 
 		$form = $this
@@ -43,6 +45,19 @@ class MovieController extends Controller {
 			->add('description', TextareaType::class)
 			->add('submit', SubmitType::class)
 			->getForm();
+
+		$form->handleRequest($request);
+
+		if ($form->isValid()) {
+			$movie = $form->getData();
+			$em = $this->getDoctrine()->getManager();
+			$em->persist($movie);
+			$em->flush();
+
+			$this->addFlash('success', 'Movie ' . $movie->getName() . ' was created.');
+
+			return $this->redirectToRoute('app_movie_list');
+		}
 
 		return $this->render('AppBundle:Movie:new.html.twig', [
 			'form' => $form->createView(),
