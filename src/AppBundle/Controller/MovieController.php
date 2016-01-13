@@ -13,7 +13,9 @@ class MovieController extends Controller {
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function listAction() {
-		$movieRepository = $this->getDoctrine()->getManager()->getRepository(Movie::class);
+		$movieRepository = $this->get('app.movie.movie_repository');
+		/* @var $movieRepository \AppBundle\Model\Movie\MovieRepository */
+		
 		$movies = $movieRepository->findAll();
 
 		return $this->render('AppBundle:Movie:list.html.twig', [

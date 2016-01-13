@@ -1,2 +1,5 @@
 services:
 
+  app.movie.movie_repository:
+    class: AppBundle\Model\Movie\MovieRepository
+    autowire: true
